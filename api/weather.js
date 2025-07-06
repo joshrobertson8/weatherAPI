@@ -1,7 +1,6 @@
 import fetch from 'node-fetch';
 
 const API_KEY = process.env.API_KEY || process.env.OPENWEATHER_API_KEY;
-console.log('Loaded Weather API key:', API_KEY);
 
 export async function getWeather(lat, lon) {
     const params = new URLSearchParams({
@@ -40,7 +39,6 @@ export async function getForecast(lat, lon) {
 }
 
 export async function get5DayForecast(lat, lon) {
-    console.log('get5DayForecast called with lat:', lat, 'lon:', lon);
     // Use the 5-day forecast API (free tier) and process the data
     const params = new URLSearchParams({
         lat,
@@ -50,17 +48,14 @@ export async function get5DayForecast(lat, lon) {
     });
 
     const url = `https://api.openweathermap.org/data/2.5/forecast?${params.toString()}`;
-    console.log('Fetching from URL:', url);
 
     const response = await fetch(url);
 
     if (!response.ok) {
-        console.error('Failed to fetch 5-day forecast:', response.status, response.statusText);
         throw new Error(`failed to fetch 5-day forecast: ${response.status} ${response.statusText}`);
     }
 
     const data = await response.json();
-    console.log('Raw forecast data received, list length:', data.list?.length || 0);
     
     // Process the 5-day/3-hour forecast into daily summaries
     const dailyData = {};
@@ -89,14 +84,7 @@ export async function get5DayForecast(lat, lon) {
         dailyData[dayKey].precipitationProbs.push(item.pop || 0); // Probability of precipitation
         dailyData[dayKey].windSpeeds.push(item.wind?.speed || 0);
         dailyData[dayKey].humidity.push(item.main.humidity || 0);
-        
-        // Debug logging for the first few items
-        if (Object.keys(dailyData).length <= 2) {
-            console.log(`${dayKey} - Condition: ${item.weather[0].description}, POP: ${(item.pop || 0) * 100}%`);
-        }
     });
-    
-    console.log('Daily data keys:', Object.keys(dailyData));
     
     // Convert to daily format (natural 5-day forecast)
     const daily = Object.values(dailyData).map(day => {
@@ -218,8 +206,6 @@ export async function get5DayForecast(lat, lon) {
         };
     });
     
-    console.log('Processed daily forecast, length:', daily.length);
     const result = { daily: daily };
-    console.log('Returning forecast result:', JSON.stringify(result, null, 2));
     return result;
 }

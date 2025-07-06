@@ -49,13 +49,10 @@ class WeatherApp {
             const res = await fetch(`/api/weather?city=${encodeURIComponent(city)}`);
             if (!res.ok) throw new Error(await res.text());
             const data = await res.json();
-            console.log('API Response received:', data);
-            console.log('Has fiveDayForecast?', !!data.fiveDayForecast);
 
             if (data.weather) {
                 this.displayWeather(data, city);
                 if (data.fiveDayForecast) {
-                    console.log('Calling displayForecast with:', data.fiveDayForecast);
                     this.displayForecast(data.fiveDayForecast);
                 }
             } else if (data.multiple && data.matches) {
@@ -413,19 +410,15 @@ class WeatherApp {
     }
 
     displayForecast(forecastData) {
-        console.log('displayForecast called with data:', forecastData);
         if (!forecastData || !forecastData.daily) {
-            console.error('Invalid forecast data:', forecastData);
             return;
         }
 
-        console.log('Processing forecast data, daily array length:', forecastData.daily.length);
         // Skip the first day (today) since current weather is already displayed
         const dailyForecasts = forecastData.daily.slice(1); 
         this.forecastGrid.innerHTML = '';
 
         dailyForecasts.forEach((day, index) => {
-            console.log(`Processing day ${index + 1}:`, day);
             const date = new Date(day.dt * 1000);
             const dayName = date.toLocaleDateString('en-US', { weekday: 'short' });
             const fullDate = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
@@ -480,7 +473,6 @@ class WeatherApp {
             this.forecastGrid.appendChild(forecastCard);
         });
 
-        console.log('Showing forecast section');
         this.forecastSection.classList.remove('hidden');
     }
 }
