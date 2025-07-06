@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APSky Weather</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app" class="app-container">
+        <!-- Search Section -->
+        <section id="search-section" class="search-section">
+            <div class="hero-section">
+                <div class="floating-elements">
+                    <div class="float-element float-element--1">☀️</div>
+                    <div class="float-element float-element--2">🌤️</div>
+                    <div class="float-element float-element--3">🌧️</div>
+                    <div class="float-element float-element--4">❄️</div>
+                    <div class="float-element float-element--5">⛅</div>
+                </div>
+                
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        <span class="hero-title__main">APSky</span>
+                        <span class="hero-title__accent">Weather</span>
+                    </h1>
+                    
+                    <p class="hero-subtitle">
+                        Advanced weather forecasting platform designed for precision and elegance.
+                        <span class="hero-subtitle__highlight">Powered by OpenWeather API</span>
+                    </p>
+                    
+                    <div class="hero-features">
+                        <div class="feature-item">
+                            <div class="feature-icon-wrapper">
+                                <span class="feature-icon">🌍</span>
+                            </div>
+                            <span class="feature-title">Global Coverage</span>
+                            <span class="feature-desc">Worldwide locations</span>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon-wrapper">
+                                <span class="feature-icon">⚡</span>
+                            </div>
+                            <span class="feature-title">Real-time Data</span>
+                            <span class="feature-desc">Live weather updates</span>
+                        </div>
+                    </div>
+                    
+                    <div class="developer-credit">
+                        <span class="credit-text">Developed by</span>
+                        <span class="credit-name">Josh Robertson</span>
+                    </div>
+                </div>
+                
+                <div class="search-card">
+                    <form id="weather-form" class="weather-form">
+                        <div class="search-container">
+                            <div class="search-input-wrapper">
+                                <div class="search-input-group">
+                                    <div class="search-icon-container">
+                                        <svg class="search-icon" viewBox="0 0 24 24">
+                                            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                                        </svg>
+                                        <div class="search-icon-pulse"></div>
+                                    </div>
+                                    <input type="text" id="city" class="city-input" placeholder="Enter city name..." required>
+                                    <div class="input-focus-line"></div>
+                                </div>
+                                <div class="search-suggestions" id="search-suggestions"></div>
+                            </div>
+                            
+                            <button type="submit" class="get-weather-btn">
+                                <span class="btn-content">
+                                    <span class="btn-text">Get Weather</span>
+                                    <svg class="btn-arrow" viewBox="0 0 24 24">
+                                        <path d="M5 12h14m-7-7l7 7-7 7"/>
+                                    </svg>
+                                </span>
+                                <div class="btn-ripple"></div>
+                            </button>
+                            
+                            <button type="button" class="icon-legend-btn" id="icon-legend-btn" title="Weather Icon Guide">
+                                <span class="icon-legend-icon">🌤️</span>
+                                <span class="icon-legend-text">Icon Guide</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Home Button (hidden by default) -->
+        <div id="home-button" class="home-button hidden">
+            <button id="home-btn" class="home-btn">
+                <span class="home-btn__icon">🏠</span>
+                <span class="home-btn__text">Home</span>
+            </button>
+        </div>
+
+        <!-- Loading State -->
+        <div class="loading-message" id="loading-msg">
+            <div class="loading-content">
+                <span class="loading-icon">🌤️</span>
+                Fetching weather data...
+            </div>
+        </div>
+
+        <!-- City Selection -->
+        <section id="city-selection" class="city-selection hidden">
+            <h2 class="city-selection__title">Multiple cities found. Please select one:</h2>
+            <div id="city-selection-grid" class="city-selection__grid">
+                <!-- City buttons will be inserted here -->
+            </div>
+        </section>
+
+        <!-- Location Header -->
+        <section id="location-header" class="location-header hidden">
+            <h2 class="location-header__city" id="current-city"><!-- City name --></h2>
+            <p class="location-header__time" id="current-time"><!-- Current time --></p>
+        </section>
+
+        <!-- Weather Grid -->
+        <section id="weather-grid" class="weather-grid hidden">
+            <!-- Main weather card -->
+            <div class="weather-card weather-card--main">
+                <span class="weather-card__icon" id="main-icon">🌤️</span>
+                <div class="weather-card__value" id="main-temp">72°</div>
+                <div class="weather-card__subtitle" id="main-condition">Partly Cloudy</div>
+                <div class="weather-card__subtitle" id="main-feels-like">Feels like 75°</div>
+            </div>
+
+            <!-- Temperature card -->
+            <div class="weather-card weather-card--temp">
+                <span class="weather-card__icon">🌡️</span>
+                <div class="weather-card__title">Temperature</div>
+                <div class="weather-card__value" id="temp-value">72°F</div>
+                <div class="weather-card__subtitle" id="temp-range">H: 75° L: 68°</div>
+            </div>
+
+            <!-- Condition card -->
+            <div class="weather-card weather-card--condition">
+                <span class="weather-card__icon" id="condition-icon">☀️</span>
+                <div class="weather-card__title">Condition</div>
+                <div class="weather-card__value" id="condition-text">Sunny</div>
+                <div class="weather-card__subtitle" id="condition-desc">Clear skies</div>
+            </div>
+
+            <!-- Humidity card -->
+            <div class="weather-card weather-card--humidity">
+                <span class="weather-card__icon">💧</span>
+                <div class="weather-card__title">Humidity</div>
+                <div class="weather-card__value" id="humidity-value">65%</div>
+                <div class="weather-card__subtitle">Comfortable</div>
+            </div>
+        </section>
+
+        <!-- 5-Day Forecast -->
+        <section id="forecast-section" class="forecast-section hidden">
+            <div class="forecast-container">
+                <h3 class="forecast-title">5-Day Forecast</h3>
+                <div class="forecast-grid" id="forecast-grid">
+                    <!-- Forecast cards will be inserted here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Weather Icon Legend Modal -->
+        <div id="icon-legend-modal" class="icon-legend-modal hidden">
+            <div class="icon-legend-overlay"></div>
+            <div class="icon-legend-content">
+                <div class="icon-legend-header">
+                    <h3>Weather Icon Guide</h3>
+                    <button class="icon-legend-close" id="icon-legend-close">&times;</button>
+                </div>
+                <div class="icon-legend-grid">
+                    <div class="icon-legend-item">
+                        <span class="icon-legend-symbol">☀️</span>
+                        <span class="icon-legend-desc">Clear sunny sky</span>
+                    </div>
+                    <div class="icon-legend-item">
+                        <span class="icon-legend-symbol">🌤️</span>
+                        <span class="icon-legend-desc">Mostly sunny with few clouds</span>
+                    </div>
+                    <div class="icon-legend-item">
+                        <span class="icon-legend-symbol">⛅</span>
+                        <span class="icon-legend-desc">Partly cloudy</span>
+                    </div>
+                    <div class="icon-legend-item">
+                        <span class="icon-legend-symbol">🌥️</span>
+                        <span class="icon-legend-desc">Mostly cloudy with some sun</span>
+                    </div>
+                    <div class="icon-legend-item">
+                        <span class="icon-legend-symbol">☁️</span>
+                        <span class="icon-legend-desc">Overcast - completely cloudy</span>
+                    </div>
+                    <div class="icon-legend-item">
+                        <span class="icon-legend-symbol">🌦️</span>
+                        <span class="icon-legend-desc">Light rain or drizzle</span>
+                    </div>
+                    <div class="icon-legend-item">
+                        <span class="icon-legend-symbol">🌧️</span>
+                        <span class="icon-legend-desc">Moderate to heavy rain</span>
+                    </div>
+                    <div class="icon-legend-item">
+                        <span class="icon-legend-symbol">⛈️</span>
+                        <span class="icon-legend-desc">Thunderstorm with heavy rain</span>
+                    </div>
+                    <div class="icon-legend-item">
+                        <span class="icon-legend-symbol">🌩️</span>
+                        <span class="icon-legend-desc">Light thunderstorm</span>
+                    </div>
+                    <div class="icon-legend-item">
+                        <span class="icon-legend-symbol">🌨️</span>
+                        <span class="icon-legend-desc">Light snow or sleet</span>
+                    </div>
+                    <div class="icon-legend-item">
+                        <span class="icon-legend-symbol">❄️</span>
+                        <span class="icon-legend-desc">Snow</span>
+                    </div>
+                    <div class="icon-legend-item">
+                        <span class="icon-legend-symbol">🌫️</span>
+                        <span class="icon-legend-desc">Fog or mist</span>
+                    </div>
+                    <div class="icon-legend-item">
+                        <span class="icon-legend-symbol">🌪️</span>
+                        <span class="icon-legend-desc">Tornado or strong winds</span>
+                    </div>
+                    <div class="icon-legend-item">
+                        <span class="icon-legend-symbol">🌀</span>
+                        <span class="icon-legend-desc">Hurricane or tropical storm</span>
+                    </div>
+                    <div class="icon-legend-item">
+                        <span class="icon-legend-symbol">💨</span>
+                        <span class="icon-legend-desc">Very windy conditions</span>
+                    </div>
+                    <div class="icon-legend-item">
+                        <span class="icon-legend-symbol">🧊</span>
+                        <span class="icon-legend-desc">Hail</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

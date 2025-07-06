@@ -1,6 +1,7 @@
 import fetch from 'node-fetch';
 
-const API_KEY = process.env.API_KEY;
+const API_KEY = process.env.API_KEY || process.env.OPENWEATHER_API_KEY;
+console.log('Loaded Geo API key:', API_KEY);
 
 export async function getCoordinates(city, all = false) {
     const params = new URLSearchParams({
