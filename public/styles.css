@@ -32,62 +32,6 @@ body::before {
     transition: background 1s ease-in-out;
 }
 
-/* Weather-based backgrounds */
-body.weather-clear {
-    background: url('static/sun.jpg') center/cover no-repeat;
-    background-attachment: fixed;
-}
-
-body.weather-clouds {
-    background: url('static/cloudy.jpg') center/cover no-repeat;
-    background-attachment: fixed;
-}
-
-body.weather-rain {
-    background: url('static/rain.jpg') center/cover no-repeat;
-    background-attachment: fixed;
-}
-
-body.weather-drizzle {
-    background: url('static/rain.jpg') center/cover no-repeat;
-    background-attachment: fixed;
-}
-
-body.weather-thunderstorm {
-    background: url('static/thunderstorm.jpg') center/cover no-repeat;
-    background-attachment: fixed;
-}
-
-body.weather-snow {
-    background: url('static/snow.jpg') center/cover no-repeat;
-    background-attachment: fixed;
-}
-
-body.weather-mist,
-body.weather-fog,
-body.weather-haze {
-    background: url('static/cloudy.jpg') center/cover no-repeat;
-    background-attachment: fixed;
-}
-
-/* Adjust overlay opacity for different weather conditions */
-body.weather-clear::before {
-    background: rgba(0, 0, 0, 0.2);
-}
-
-body.weather-snow::before {
-    background: rgba(0, 0, 0, 0.1);
-}
-
-body.weather-thunderstorm::before {
-    background: rgba(0, 0, 0, 0.4);
-}
-
-body.weather-rain::before,
-body.weather-drizzle::before {
-    background: rgba(0, 0, 0, 0.3);
-}
-
 .app-container {
     min-height: 100vh;
     display: flex;
@@ -246,16 +190,14 @@ body.weather-drizzle::before {
 
 .search-btn {
     padding: 1rem 1.25rem;
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    border: none;
     cursor: pointer;
     transition: all 0.3s ease;
-    border-radius: 0 14px 14px 0;
 }
 
 .search-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
-    border-color: rgba(255, 255, 255, 0.4);
+    background: linear-gradient(45deg, #5a6fd8, #6a4190);
 }
 
 .search-icon {
@@ -834,7 +776,7 @@ body.weather-drizzle::before {
 /* Home Button */
 .home-button {
     position: fixed;
-    top: 6rem;
+    top: 2rem;
     right: 2rem;
     z-index: 1000;
 }
