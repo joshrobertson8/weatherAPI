@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App - Josh Robertson</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="app" class="app-container">
+      <!-- Header -->
+      <header class="main-header">
+        <div class="header-content">
+          <div class="logo-section">
+            <h1 class="app-title">WeatherLens</h1>
+            <span class="version-tag">v1.0</span>
+          </div>
+          <div class="header-info">
+            <span class="creator">Josh Robertson</span>
+            <span class="role">CS Portfolio</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="main-content" id="search-section">
+        <div class="content-grid">
+          <!-- Right Panel: Search Interface -->
+          <section class="search-panel">
+            <div class="search-wrapper">
+              <div class="search-header">
+                <h2 class="search-title">Search Weather</h2>
+                <p class="search-subtitle">
+                  Enter any city name to get current weather conditions
+                </p>
+              </div>
+
+              <form id="weather-form" class="search-form">
+                <div class="input-container">
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      id="city"
+                      class="search-input"
+                      placeholder="Enter city name..."
+                      required
+                    />
+                    <button type="submit" class="search-btn">
+                      <svg class="search-icon" viewBox="0 0 24 24">
+                        <path
+                          d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="search-suggestions" id="search-suggestions"></div>
+                </div>
+
+                <button
+                  type="button"
+                  class="info-btn"
+                  id="icon-legend-btn"
+                  title="Weather Icon Guide"
+                >
+                  <span class="info-icon">ℹ️</span>
+                  Weather Icons Guide
+                </button>
+              </form>
+
+              <div class="demo-section">
+                <p class="demo-text">Try searching for:</p>
+                <div class="demo-cities">
+                  <span class="demo-city">New York</span>
+                  <span class="demo-city">London</span>
+                  <span class="demo-city">Tokyo</span>
+                  <span class="demo-city">Sydney</span>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+
+      <!-- Home Button (hidden by default) -->
+      <div id="home-button" class="home-button hidden">
+        <button id="home-btn" class="home-btn">
+          <span class="home-btn__icon">🏠</span>
+          <span class="home-btn__text">Home</span>
+        </button>
+      </div>
+
+      <!-- Loading State -->
+      <div class="loading-message" id="loading-msg">
+        <div class="loading-content">
+          <span class="loading-icon">🌤️</span>
+          Fetching weather data...
+        </div>
+      </div>
+
+      <!-- City Selection -->
+      <section id="city-selection" class="city-selection hidden">
+        <h2 class="city-selection__title">
+          Multiple cities found. Please select one:
+        </h2>
+        <div id="city-selection-grid" class="city-selection__grid">
+          <!-- City buttons will be inserted here -->
+        </div>
+      </section>
+
+      <!-- Location Header -->
+      <section id="location-header" class="location-header hidden">
+        <h2 class="location-header__city" id="current-city">
+          <!-- City name -->
+        </h2>
+        <p class="location-header__time" id="current-time">
+          <!-- Current time -->
+        </p>
+      </section>
+
+      <!-- Weather Grid -->
+      <section id="weather-grid" class="weather-grid hidden">
+        <!-- Main weather card -->
+        <div class="weather-card weather-card--main">
+          <span class="weather-card__icon" id="main-icon">🌤️</span>
+          <div class="weather-card__value" id="main-temp">72°</div>
+          <div class="weather-card__subtitle" id="main-condition">
+            Partly Cloudy
+          </div>
+          <div class="weather-card__subtitle" id="main-feels-like">
+            Feels like 75°
+          </div>
+        </div>
+
+        <!-- Temperature card -->
+        <div class="weather-card weather-card--temp">
+          <span class="weather-card__icon">🌡️</span>
+          <div class="weather-card__title">Temperature</div>
+          <div class="weather-card__value" id="temp-value">72°F</div>
+          <div class="weather-card__subtitle" id="temp-range">
+            H: 75° L: 68°
+          </div>
+        </div>
+
+        <!-- Condition card -->
+        <div class="weather-card weather-card--condition">
+          <span class="weather-card__icon" id="condition-icon">☀️</span>
+          <div class="weather-card__title">Condition</div>
+          <div class="weather-card__value" id="condition-text">Sunny</div>
+          <div class="weather-card__subtitle" id="condition-desc">
+            Clear skies
+          </div>
+        </div>
+
+        <!-- Humidity card -->
+        <div class="weather-card weather-card--humidity">
+          <span class="weather-card__icon">💧</span>
+          <div class="weather-card__title">Humidity</div>
+          <div class="weather-card__value" id="humidity-value">65%</div>
+          <div class="weather-card__subtitle">Comfortable</div>
+        </div>
+      </section>
+
+      <!-- 5-Day Forecast -->
+      <section id="forecast-section" class="forecast-section hidden">
+        <div class="forecast-container">
+          <h3 class="forecast-title">5-Day Forecast</h3>
+          <div class="forecast-grid" id="forecast-grid">
+            <!-- Forecast cards will be inserted here -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Weather Icon Legend Modal -->
+      <div id="icon-legend-modal" class="icon-legend-modal hidden">
+        <div class="icon-legend-overlay"></div>
+        <div class="icon-legend-content">
+          <div class="icon-legend-header">
+            <h3>Weather Icon Guide</h3>
+            <button class="icon-legend-close" id="icon-legend-close">
+              &times;
+            </button>
+          </div>
+          <div class="icon-legend-grid">
+            <div class="icon-legend-item">
+              <span class="icon-legend-symbol">☀️</span>
+              <span class="icon-legend-desc">Clear sunny sky</span>
+            </div>
+            <div class="icon-legend-item">
+              <span class="icon-legend-symbol">🌤️</span>
+              <span class="icon-legend-desc">Mostly sunny with few clouds</span>
+            </div>
+            <div class="icon-legend-item">
+              <span class="icon-legend-symbol">⛅</span>
+              <span class="icon-legend-desc">Partly cloudy</span>
+            </div>
+            <div class="icon-legend-item">
+              <span class="icon-legend-symbol">🌥️</span>
+              <span class="icon-legend-desc">Mostly cloudy with some sun</span>
+            </div>
+            <div class="icon-legend-item">
+              <span class="icon-legend-symbol">☁️</span>
+              <span class="icon-legend-desc">Overcast - completely cloudy</span>
+            </div>
+            <div class="icon-legend-item">
+              <span class="icon-legend-symbol">🌦️</span>
+              <span class="icon-legend-desc">Light rain or drizzle</span>
+            </div>
+            <div class="icon-legend-item">
+              <span class="icon-legend-symbol">🌧️</span>
+              <span class="icon-legend-desc">Moderate to heavy rain</span>
+            </div>
+            <div class="icon-legend-item">
+              <span class="icon-legend-symbol">⛈️</span>
+              <span class="icon-legend-desc">Thunderstorm with heavy rain</span>
+            </div>
+            <div class="icon-legend-item">
+              <span class="icon-legend-symbol">🌩️</span>
+              <span class="icon-legend-desc">Light thunderstorm</span>
+            </div>
+            <div class="icon-legend-item">
+              <span class="icon-legend-symbol">🌨️</span>
+              <span class="icon-legend-desc">Light snow or sleet</span>
+            </div>
+            <div class="icon-legend-item">
+              <span class="icon-legend-symbol">❄️</span>
+              <span class="icon-legend-desc">Snow</span>
+            </div>
+            <div class="icon-legend-item">
+              <span class="icon-legend-symbol">🌫️</span>
+              <span class="icon-legend-desc">Fog or mist</span>
+            </div>
+            <div class="icon-legend-item">
+              <span class="icon-legend-symbol">🌪️</span>
+              <span class="icon-legend-desc">Tornado or strong winds</span>
+            </div>
+            <div class="icon-legend-item">
+              <span class="icon-legend-symbol">🌀</span>
+              <span class="icon-legend-desc">Hurricane or tropical storm</span>
+            </div>
+            <div class="icon-legend-item">
+              <span class="icon-legend-symbol">💨</span>
+              <span class="icon-legend-desc">Very windy conditions</span>
+            </div>
+            <div class="icon-legend-item">
+              <span class="icon-legend-symbol">🧊</span>
+              <span class="icon-legend-desc">Hail</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
