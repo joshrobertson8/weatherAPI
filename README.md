@@ -17,8 +17,6 @@ It allows users to search for cities and view current weather, hourly forecasts,
 
 ---
 
-## Demo
-
 ### Homepage  
 ![Homepage](demo/hp.png)
 
