@@ -62,27 +62,6 @@ Backgrounds and icons adapt to the weather:
 
 ---
 
-## Project Structure
-
-```
-APSky/
-├── package.json
-├── package-lock.json
-├── README.md
-├── server.js          # Express server
-├── geo.js             # Geocoding functions
-├── weather.js         # Weather + forecast logic
-├── utils/             # Helpers (e.g. citySelector.js)
-├── public/
-│   ├── index.html
-│   ├── script.js
-│   ├── css/
-│   └── static/        # Images & backgrounds
-└── demo/              # Demo screenshots for README
-```
-
----
-
 ## Getting Started
 
 1. **Clone the repository**  
